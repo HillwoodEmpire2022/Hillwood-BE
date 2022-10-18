@@ -20,16 +20,16 @@ Route::post('User/Register', [AuthController::class,'register'])->name('user.reg
 Route::group(['middleware'=>['auth:api']], function(){
     
     // Public routes for authonticated user
-    Route::get('User/Logout', [AuthController::class,'logout'])->name('user.logout');
-    Route::get('User/Info', [AuthController::class,'userInformation'])->name('user.information');
     Route::put('User/Update', [AuthController::class,'update'])->name('user.update');
+    Route::get('User/Info', [AuthController::class,'userInformation'])->name('user.information');
+    Route::get('User/Logout', [AuthController::class,'logout'])->name('user.logout');
 
     
     
     // Admin's route
     Route::middleware(['is_admin'])->group(function(){
         // 
-        Route::get('v1/allUser',[AuthController::class,'allUser'])->name('allUser');
+        Route::get('User/AllUser',[AuthController::class,'allUser'])->name('allUser');
     });
 
     // User's route

@@ -130,7 +130,7 @@
                 }
             }
         },
-        "/api/v1/login": {
+        "/api/User/Login": {
             "post": {
                 "tags": [
                     "auth"
@@ -184,19 +184,28 @@
                 }
             }
         },
-        "/api/v1/user/update": {
+        "/api/User/Update": {
             "put": {
                 "tags": [
                     "auth"
                 ],
                 "summary": "Update info",
                 "description": "Update loggedin user and return user info",
-                "operationId": "updateUser",
+                "operationId": "updateInfo",
                 "parameters": [
                     {
-                        "name": "name",
+                        "name": "fname",
                         "in": "query",
-                        "description": "Update your name",
+                        "description": "Update your first name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lname",
+                        "in": "query",
+                        "description": "Update your last name",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -223,8 +232,26 @@
                     {
                         "name": "gender",
                         "in": "query",
-                        "description": "Update your gender",
-                        "required": true,
+                        "description": "Enter User Gender",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Enter your address",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dob",
+                        "in": "query",
+                        "description": "Date of Birth",
+                        "required": false,
                         "schema": {
                             "type": "string"
                         }
@@ -277,7 +304,7 @@
                 ]
             }
         },
-        "/api/v1/user": {
+        "/api/User/Info": {
             "get": {
                 "tags": [
                     "auth"
@@ -312,16 +339,16 @@
                 ]
             }
         },
-        "/api/v1/allUser": {
+        "/api/User/AllUser": {
             "get": {
                 "tags": [
-                    "participant"
+                    "auth"
                 ],
                 "summary": "User List",
-                "description": "Returns list of of all users not doctor and admin",
+                "description": "Returns list of of all users with account",
                 "operationId": "getAllUser",
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Successful operation",
                         "content": {
                             "application/json": {
@@ -349,7 +376,7 @@
                 ]
             }
         },
-        "/api/v1/logout": {
+        "/api/User/Logout": {
             "get": {
                 "tags": [
                     "auth"

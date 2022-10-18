@@ -161,7 +161,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/api/v1/login",
+     * path="/api/User/Login",
      * summary="Login",
      * description="Login by email, password",
      * operationId="authLogin",
@@ -239,15 +239,24 @@ class AuthController extends Controller
 
     /**
      * @OA\put(
-     *      path="/api/v1/user/update",
-     *      operationId="updateUser",
+     *      path="/api/User/Update",
+     *      operationId="updateInfo",
      *      tags={"auth"},
      *      summary="Update info",
      *      description="Update loggedin user and return user info", 
      *      security={{"bearer":{}}},
      *      @OA\Parameter(
-     *          name="name",
-     *          description="Update your name",
+     *          name="fname",
+     *          description="Update your first name",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *       ),
+     *      @OA\Parameter(
+     *          name="lname",
+     *          description="Update your last name",
      *          required=true,
      *          in="query",
      *          @OA\Schema(
@@ -274,8 +283,26 @@ class AuthController extends Controller
      *       ),
      *      @OA\Parameter(
      *          name="gender",
-     *          description="Update your gender",
-     *          required=true,
+     *          description="Enter User Gender",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *       ),
+     *      @OA\Parameter(
+     *          name="address",
+     *          description="Enter your address",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *       ),
+     *      @OA\Parameter(
+     *          name="dob",
+     *          description="Date of Birth",
+     *          required=false,
      *          in="query",
      *          @OA\Schema(
      *              type="string"
@@ -325,10 +352,14 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'fname' => 'required|string',
+            'lname' => 'required|string',
             'email' => 'required|email',
             'gender' => 'required',
             'phone' => 'required|starts_with:078,072,073,079|min:10|max:10',
+            'gender' => 'nullable',
+            'address' => 'nullable',
+            'dob' => 'nullable',
             'password' => 'required|min:6|confirmed',
         ]);
         if($validator->fails())
@@ -338,10 +369,13 @@ class AuthController extends Controller
             ], 400);
         }
         $user = User::find(Auth()->user()->id);
-        $user->name = $request->name;
+        $user->fname = $request->fname;
+        $user->lname = $request->lname;
         $user->email = $request->email;
-        $user->gender = $request->gender;
         $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->address = $request->address;
+        $user->dob = $request->dob;
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -353,7 +387,7 @@ class AuthController extends Controller
 
     /**
      * @OA\get(
-     *      path="/api/v1/user",
+     *      path="/api/User/Info",
      *      operationId="getUserInfo",
      *      tags={"auth"},
      *      summary="Logged in user info",
@@ -374,7 +408,7 @@ class AuthController extends Controller
      *          response=403,
      *          description="Forbidden"
      *      ),
-     * @OA\Response(
+     *     @OA\Response(
      *      response=400,
      *      description="Bad Request"
      *   ),
@@ -393,14 +427,14 @@ class AuthController extends Controller
     
     /**
      * @OA\Get(
-     *      path="/api/v1/allUser",
+     *      path="/api/User/AllUser",
      *      operationId="getAllUser",
-     *      tags={"participant"},
+     *      tags={"auth"},
      *      summary="User List",
-     *      description="Returns list of of all users not doctor and admin",
+     *      description="Returns list of of all users with account",
      *      security={{"bearer":{}}},
      *      @OA\Response(
-     *          response=204,
+     *          response=200,
      *          description="Successful operation",
      *          @OA\JsonContent()
      *       ),
@@ -424,13 +458,13 @@ class AuthController extends Controller
      */
     public function allUser()
     {
-        $users = User::all()->where('role_id',3);
+        $users = User::all()->where('role',2);
         return response()->json($users,200);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/v1/logout",
+     *      path="/api/User/Logout",
      *      operationId="logout",
      *      tags={"auth"},
      *      summary="Get out of System",
