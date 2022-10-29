@@ -189,6 +189,7 @@ return [
                
                 */
 
+                
                 'bearer' => [ // Unique name of security
                     'type' => 'apiKey', // Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Enter token in format (Bearer <token>)',

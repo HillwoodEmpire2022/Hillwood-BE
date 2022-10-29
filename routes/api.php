@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChannelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,16 @@ Route::group(['middleware'=>['auth:api']], function(){
 
     // User's route
     Route::middleware(['is_user'])->group(function(){
-        // Route
+        // 
     });
+
+
+    // Channels route
+    Route::get('Channel/All', [ChannelController::class,'getAllChannels'])->name('channel.all');
+    Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.blog');
+    Route::get('Channel/Id/{id}', [ChannelController::class,'getChannelById'])->name('channel.id');
+    Route::get('Channel/User', [ChannelController::class,'getChannelByUser'])->name('channel.user');
+    Route::post('Channel/Update/{id}', [ChannelController::class,'channelUpdate'])->name('update.channel');
+    Route::delete('Channel/Delete/{id}', [ChannelController::class,'channelDelete'])->name('delete.channel');
     
 });

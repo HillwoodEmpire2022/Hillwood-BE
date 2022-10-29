@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
             $table->string('channel_name');
+            $table->string('channel_profile');
             $table->unsignedBigInteger('channel_user');
             $table->timestamps();
             $table->foreign('channel_user')->references('id')->on('users')->onDelete('cascade');

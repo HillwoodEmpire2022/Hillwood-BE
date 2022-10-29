@@ -8,8 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Channel extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'channel_name',
-        'channel_user'
-    ];
+    protected $guarded = [];
 }
