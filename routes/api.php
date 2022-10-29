@@ -31,20 +31,22 @@ Route::group(['middleware'=>['auth:api']], function(){
     Route::middleware(['is_admin'])->group(function(){
         // 
         Route::get('User/AllUser',[AuthController::class,'allUser'])->name('allUser');
+
+        // channel route
+        Route::get('Channel/All', [ChannelController::class,'getAllChannels'])->name('channel.all');
+        Route::get('Channel/Id/{id}', [ChannelController::class,'getChannelById'])->name('channel.id');
     });
 
     // User's route
     Route::middleware(['is_user'])->group(function(){
-        // 
+        // channel
+        Route::get('Channel/User', [ChannelController::class,'getChannelByUser'])->name('channel.user');
+        Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.blog');
+        Route::post('Channel/Update/{id}', [ChannelController::class,'channelUpdate'])->name('update.channel');
     });
 
 
     // Channels route
-    Route::get('Channel/All', [ChannelController::class,'getAllChannels'])->name('channel.all');
-    Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.blog');
-    Route::get('Channel/Id/{id}', [ChannelController::class,'getChannelById'])->name('channel.id');
-    Route::get('Channel/User', [ChannelController::class,'getChannelByUser'])->name('channel.user');
-    Route::post('Channel/Update/{id}', [ChannelController::class,'channelUpdate'])->name('update.channel');
     Route::delete('Channel/Delete/{id}', [ChannelController::class,'channelDelete'])->name('delete.channel');
     
 });
