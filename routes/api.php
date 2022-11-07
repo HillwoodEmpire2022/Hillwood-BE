@@ -41,12 +41,13 @@ Route::group(['middleware'=>['auth:api']], function(){
     // User's route
     Route::middleware(['is_user'])->group(function(){
         // channel
-        Route::get('Channel/User', [ChannelController::class,'getChannelByUser'])->name('channel.user');
-        Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.channel');
-        Route::post('Channel/Update/{id}', [ChannelController::class,'channelUpdate'])->name('update.channel');
         
         
     });
+    
+    Route::get('Channel/User', [ChannelController::class,'getChannelByUser'])->name('channel.user');
+    Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.channel');
+    Route::post('Channel/Update/{id}', [ChannelController::class,'channelUpdate'])->name('update.channel');
     
     // Subscribe channel
     Route::post('Subscribe/Channel/{id}', [SubsribeController::class,'createSubscribe'])->name('channel.subscribe');
