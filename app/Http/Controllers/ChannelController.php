@@ -388,11 +388,18 @@ class ChannelController extends Controller
 
     public function channelDelete($id)
     {
-        $result = DB::table('channels')->where('id', $id);
+        if(Auth()->user()->is_admin)
+        {
+            $result = DB::table('channels')->where('id', $id);
+        }
+        else
+        {
+            $result = DB::table('channels')->where('id', $id)->where('channel_user', Auth()->user()->id);
+        }
         if ($result->count()!=0) {
             $result->delete();
             return response()->json([
-                "Message"=>"Channel successful deleted"
+                "Message"=>"Channel deleted successful"
             ],200);
         }else {
             return response()->json(["Message"=>"This Channel not exits"],200);

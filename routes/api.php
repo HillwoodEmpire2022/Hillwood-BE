@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\SubsribeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +42,16 @@ Route::group(['middleware'=>['auth:api']], function(){
     Route::middleware(['is_user'])->group(function(){
         // channel
         Route::get('Channel/User', [ChannelController::class,'getChannelByUser'])->name('channel.user');
-        Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.blog');
+        Route::post('Channel/Create', [ChannelController::class,'createChannel'])->name('create.channel');
         Route::post('Channel/Update/{id}', [ChannelController::class,'channelUpdate'])->name('update.channel');
+        
+        
     });
-
+    
+    // Subscribe channel
+    Route::post('Subscribe/Channel/{id}', [SubsribeController::class,'createSubscribe'])->name('channel.subscribe');
+    Route::post('Unsubscribe/Channel/{id}', [SubsribeController::class,'createUnsubscribe'])->name('channel.subscribe');
+    Route::get('Channel/Subscribers/{id}', [SubsribeController::class,'getChannelSubscribers'])->name('channel.subscribers');
 
     // Channels route
     Route::delete('Channel/Delete/{id}', [ChannelController::class,'channelDelete'])->name('delete.channel');

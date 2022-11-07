@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('subscribers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('subs_channel');
+            $table->unsignedBigInteger('subs_user');
             $table->timestamps();
             $table->foreign('subs_channel')->references('id')->on('channels')->onDelete('cascade');
+            $table->foreign('subs_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
